@@ -1,65 +1,86 @@
-# markdownpreview README
+# markdown-fragment-variable-preview README
 
-This is the README for your extension "markdownpreview". After writing up a brief description, we recommend including the following sections.
+## Floders
+
+```js
+-fragment | // can includes variables or fragments
+-child | // any name you want
+-child.md | // can be use in your markdown like {{fragments/child/child.md}}
+(-anyname.md - // can be use in your markdown like {{fragments/anyname.md}}
+  yourpage1) |
+-overview.md | // can include fragment:{{fragments/child/child.md}} or variable: {{var.name}}
+  (-variables.json - // local variables in yourpage1 , if key is same, will overwrite global variables
+    variables.json); // global variables
+```
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+In this extension, we support variables and fragment in markdown file.
 
-For example if there is an image subfolder under your extension project workspace:
+1. use variables
 
-\!\[feature X\]\(images/feature-x.png\)
+```js
+// origin(src/test.md):
+### This is {{var.name}};
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+// variableFile(src/variables.json)
+{"name":"Tom"}
 
-## Requirements
+// in the preview will be
+### This is Tom;
+```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+2. use fragment and variables;
 
-## Extension Settings
+```javascript
+// origin(src/test.md):
+### This is {{var.name}};
+{{fragment/card.md}}
+{{fragment/warn.md}}
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+// variableFile (src/variables.json)
+{"name":"Tom", "info":{ "phone":"1234567", "email":"xxx@gmail.com"}}
 
-For example:
+// fragmentFile (src/fragment/card.json)
+###### name:{{var.name}}
+###### email:{{var.email}}
 
-This extension contributes the following settings:
+// fragmentFile (src/fragment/warn.json)
+###### the info should keep confidential
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+// in the preview will be
+### This is Tom ;
+###### name:Tom
+###### email:xxx@gmail.com
+###### the info should keep confidential
+```
 
-## Known Issues
+3. use multilayer variables
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+```javascript
+// origin(src/user/info.md):
+### This is {{var.name}};
+{{fragment/card.md}}
+{{fragment/warn.md}}
 
-## Release Notes
+// variableFile (src/variables.json)
+{"name":"Tom", "info":{"phone":"1234567", "email":"xxx@gmail.com"}}
 
-Users appreciate release notes as you update your extension.
+// variableFile (src/user/variables.json)
+{"name":"Alex", "info":{"phone":"9876543"}}
 
-### 1.0.0
+// fragmentFile (src/fragment/card.json)
+###### name:{{var.name}}
+###### email:{{var.email}}
 
-Initial release of ...
+// fragmentFile (src/fragment/warn.json)
+###### the info should keep confidential
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+// in the preview will be
+### This is Alex;
+###### name:Alex
+###### email:xxx@gmail.com
+###### the info should keep confidential
+```
 
 **Enjoy!**

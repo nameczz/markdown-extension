@@ -54,7 +54,7 @@ function getName(absPath) {
 
 function getContent(absPath) {
   const text = fs.readFileSync(absPath).toString().split("---");
-  return text[text.length - 1];
+  return `${text[text.length - 1]}`;
 }
 
 function setHtml(panel, absPath) {
