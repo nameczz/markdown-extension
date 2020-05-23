@@ -2,22 +2,22 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
 const MarkdownIt = require("markdown-it");
-const fs = require("fs");
 const md = new MarkdownIt();
-const { markdownToString } = require("md2md")
-console.log(markdownToString)
+const md2md = require("md2md")
+// console.log(md2md, md2md.toString())
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-// console.log("Vscode Extension");
-/**
+console.log("Vscode Extension");
+/**   
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownPreview.start", () => {
       const file = vscode.window.activeTextEditor.document.fileName;
-      console.log(file);
+      const root = vscode.workspace.rootPath
+      console.log(file, vscode.workspace.rootPath);
       // Create and show a new webview
       const panel = vscode.window.createWebviewPanel(
         "markdown", // Identifies the type of the webview. Used internally
@@ -25,21 +25,21 @@ function activate(context) {
         vscode.ViewColumn.Beside, // Editor column to show in different panel
         {} // Webview options. More on these later.
       );
-      console.log("in");
-      file && setHtml(panel, file);
+
+      file && setHtml(panel, file, root);
       // when text editor change
       vscode.window.onDidChangeActiveTextEditor((e) => {
         console.log("open");
-
         console.log(e);
-        setHtml(panel, e._documentData._document.fileName);
+
+        setHtml(panel, e._documentData._document.fileName, root);
       });
       // when saved text document
       vscode.workspace.onDidChangeTextDocument((e) => {
         console.log("changed");
         console.log(e);
 
-        setHtml(panel, e.document.fileName);
+        setHtml(panel, e.document.fileName, root);
       });
     })
   );
@@ -54,14 +54,13 @@ function getName(absPath) {
   return `Preview ${arr[arr.length - 1]}`;
 }
 
-function getContent(absPath) {
-  console.log(markdownToString(absPath))
-  const text = fs.readFileSync(absPath).toString().split("---");
+function getContent(absPath, root) {
+  const text = md2md.markdownToString(absPath, root).split("---");
   return `${text[text.length - 1]}`;
 }
 
-function setHtml(panel, absPath) {
-  panel.webview.html = md.render(getContent(absPath));
+function setHtml(panel, absPath, root) {
+  panel.webview.html = md.render(getContent(absPath, root));
   panel.title = getName(absPath);
 }
 module.exports = {
