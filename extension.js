@@ -4,6 +4,8 @@ const vscode = require("vscode");
 const MarkdownIt = require("markdown-it");
 const fs = require("fs");
 const md = new MarkdownIt();
+const { markdownToString } = require("md2md")
+console.log(markdownToString)
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -45,14 +47,15 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 function getName(absPath) {
   const arr = absPath.split("/");
-  return arr[arr.length - 1];
+  return `Preview ${arr[arr.length - 1]}`;
 }
 
 function getContent(absPath) {
+  console.log(markdownToString(absPath))
   const text = fs.readFileSync(absPath).toString().split("---");
   return `${text[text.length - 1]}`;
 }
