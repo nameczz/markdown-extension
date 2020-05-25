@@ -1,16 +1,16 @@
 # markdown-fragment-variable-preview README
 
-## Floders
+## Folders
 
 ```js
--fragment | // can includes variables or fragments
--child | // any name you want
--child.md | // can be use in your markdown like {{fragments/child/child.md}}
-(-anyname.md - // can be use in your markdown like {{fragments/anyname.md}}
-  yourpage1) |
--overview.md | // can include fragment:{{fragments/child/child.md}} or variable: {{var.name}}
-  (-variables.json - // local variables in yourpage1 , if key is same, will overwrite global variables
-    variables.json); // global variables
+-fragment             // can includes variables or fragments
+  -| child            // any name you want
+    - child.md        // can be use in your markdown like {{fragments/child/child.md}}
+    - anyname.md      // can be use in your markdown like {{fragments/anyname.md}}
+-yourpage1
+  - overview.md       // can include fragment:{{fragments/child/child.md}} or variable: {{var.name}}
+  - variables.json    // local variables in yourpage1 , if key is same, will overwrite global variables
+- variables.json      // global variables
 ```
 
 ## Features
