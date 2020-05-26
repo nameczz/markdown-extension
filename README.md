@@ -1,5 +1,15 @@
 # markdown-fragment-variable-preview README
 
+Github: https://github.com/nameczz/markdown-extension
+
+## Dependencies
+
+Base on md2md: https://github.com/talentAN/md2md
+
+## Demo
+
+![Demo](./demo.gif)
+
 ## Folders
 
 ```js
