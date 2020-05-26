@@ -2,17 +2,27 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
 const MarkdownIt = require("markdown-it");
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+  html: true,
+});
 const md2md = require("md2md");
-// console.log(md2md, md2md.toString())
+const path = require("path");
+require("./style.scss");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-console.log("Vscode Extension");
+console.log("Vscode Markdown Preview With fragments and variables");
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+  const styleSrc = vscode.Uri.file(
+    path.join(context.extensionPath, "./dist/main.css")
+  ).with({ scheme: "vscode-resource" });
+  // const link = (
+  //   <link rel="stylesheet" type="text/css" href="{{styleSrc}}"></link>
+  // );
+  console.log(styleSrc);
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownPreview.start", () => {
       const file = vscode.window.activeTextEditor.document.fileName;
@@ -27,20 +37,20 @@ function activate(context) {
         {} // Webview options. More on these later.
       );
 
-      file && setHtml(panel, file, root);
+      file && setHtml(panel, file, root, styleSrc);
       // when text editor change
       vscode.window.onDidChangeActiveTextEditor((e) => {
         console.log("open");
         console.log(e);
 
-        setHtml(panel, e._documentData._document.fileName, root);
+        setHtml(panel, e._documentData._document.fileName, root, styleSrc);
       });
       // when saved text document
       vscode.workspace.onDidChangeTextDocument((e) => {
         console.log("changed");
         console.log(e);
 
-        setHtml(panel, e.document.fileName, root);
+        setHtml(panel, e.document.fileName, root, styleSrc);
       });
     })
   );
@@ -65,8 +75,14 @@ function getContent(absPath, root) {
   }
 }
 
-function setHtml(panel, absPath, root) {
-  panel.webview.html = md.render(getContent(absPath, root));
+function setHtml(panel, absPath, root, stylePath) {
+  const content = `<link rel="stylesheet" type="text/css" href="${stylePath}"></link> 
+  <div class="doc-post-container">
+  ${md.render(getContent(absPath, root))}
+  </div>
+  `;
+  // console.log(content);
+  panel.webview.html = content;
   panel.title = getName(absPath);
 }
 module.exports = {
