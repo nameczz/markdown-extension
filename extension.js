@@ -22,7 +22,7 @@ function activate(context) {
   // const link = (
   //   <link rel="stylesheet" type="text/css" href="{{styleSrc}}"></link>
   // );
-  console.log(styleSrc);
+  // console.log(styleSrc);
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownPreview.start", () => {
       const file = vscode.window.activeTextEditor.document.fileName;
@@ -37,20 +37,20 @@ function activate(context) {
         {} // Webview options. More on these later.
       );
 
-      file && setHtml(panel, file, root, styleSrc);
+      file && setHtml(panel, file, styleSrc);
       // when text editor change
       vscode.window.onDidChangeActiveTextEditor((e) => {
         console.log("open");
         console.log(e);
 
-        setHtml(panel, e._documentData._document.fileName, root, styleSrc);
+        setHtml(panel, e._documentData._document.fileName, styleSrc);
       });
       // when saved text document
-      vscode.workspace.onDidChangeTextDocument((e) => {
-        console.log("changed");
+      vscode.workspace.onDidSaveTextDocument((e) => {
+        console.log("saved");
         console.log(e);
 
-        setHtml(panel, e.document.fileName, root, styleSrc);
+        setHtml(panel, e.fileName, styleSrc);
       });
     })
   );
@@ -65,9 +65,10 @@ function getName(absPath) {
   return `Preview ${arr[arr.length - 1]}`;
 }
 
-function getContent(absPath, root) {
+function getContent(absPath) {
   try {
-    const text = md2md.markdownToString(absPath, root).split("---");
+    // console.log(md2md.markdownToString(absPath));
+    const text = md2md.markdownToString(absPath).split("---");
     return `${text[text.length - 1]}`;
   } catch (error) {
     vscode.window.showErrorMessage("md2md error");
@@ -75,10 +76,10 @@ function getContent(absPath, root) {
   }
 }
 
-function setHtml(panel, absPath, root, stylePath) {
+function setHtml(panel, absPath, stylePath) {
   const content = `<link rel="stylesheet" type="text/css" href="${stylePath}"></link> 
   <div class="doc-post-container">
-  ${md.render(getContent(absPath, root))}
+  ${md.render(getContent(absPath))}
   </div>
   `;
   // console.log(content);

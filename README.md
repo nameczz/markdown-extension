@@ -4,7 +4,7 @@ Github: https://github.com/nameczz/markdown-extension
 
 ## Dependencies
 
-Base on md2md: https://github.com/talentAN/md2md
+Base on md2md: https://github.com/zilliztech/md2md
 
 ## Demo
 
@@ -30,14 +30,22 @@ In this extension, we support variables and fragment in markdown file.
 1. use variables
 
 ```js
-// origin(src/test.md):
+// variabeFile (doc_from/en/variables.json)
+{"name":"md2md"}
+
+// origin docFile (doc_from/en/test.md):
+---
+name: test
+---
 ### This is {{var.name}};
+### Visit {{var.name}} for more details;
 
-// variableFile(src/variables.json)
-{"name":"Tom"}
-
-// in the preview will be
-### This is Tom;
+// turn to target(doc_to/en/test.md)
+---
+name: test
+---
+### This is md2md;
+### Visit test for more details;
 ```
 
 2. use fragment and variables;
