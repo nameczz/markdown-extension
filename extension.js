@@ -42,7 +42,9 @@ function activate(context) {
       vscode.window.onDidChangeActiveTextEditor((e) => {
         console.log("open");
         console.log(e);
-
+        if (e._documentData._languageId !== "markdown") {
+          return;
+        }
         setHtml(panel, e._documentData._document.fileName, styleSrc);
       });
       // when saved text document
