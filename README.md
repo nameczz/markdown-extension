@@ -13,14 +13,16 @@ Base on md2md: https://github.com/zilliztech/md2md
 ## Folders
 
 ```js
--fragment             // can includes variables or fragments
-  -| child            // any name you want
-    - child.md        // can be use in your markdown like {{fragments/child/child.md}}
-    - anyname.md      // can be use in your markdown like {{fragments/anyname.md}}
--yourpage1
-  - overview.md       // can include fragment:{{fragments/child/child.md}} or variable: {{var.name}}
-  - variables.json    // local variables in yourpage1 , if key is same, will overwrite global variables
-- variables.json      // global variables
+-| site
+  -| en
+    -| fragment             // can includes variables or fragments
+      -| child            // any name you want
+        - child.md        // can be use in your markdown like {{fragments/child/child.md}}
+        - anyname.md      // can be use in your markdown like {{fragments/anyname.md}}
+    -| yourpage1
+      - overview.md       // can include fragment:{{fragments/child/child.md}} or variable: {{var.name}}
+      - variables.json    // local variables in yourpage1 , if key is same, will overwrite global variables
+    - variables.json      // global variables
 ```
 
 ## Features

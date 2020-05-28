@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+process.env.name_dir_from = "site";
 const vscode = require("vscode");
 const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt({
