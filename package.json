@@ -2,7 +2,7 @@
 	"name": "markdown-fragment-variable-preview",
 	"displayName": "MarkdownPreview",
 	"description": "Replace all variables and fragements, then you can preview complete markdown",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"author": "chenzizhao",
 	"publisher": "chenzizhao",
 	"repository": {
