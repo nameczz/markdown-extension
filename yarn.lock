@@ -2680,10 +2680,10 @@ markdown-it@^11.0.0:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-md2md@^0.3.0:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/md2md/-/md2md-0.3.5.tgz#244c9099ac007fc90d43167e5ee60a78b5209813"
-  integrity sha512-OX8K4soCYAISZk7Xgg4FKIbwqe8n6gmioB11oIwUwsgO7Ukfe/EwD67Y9hA7IZPFWPwZLy1qnooIzfXCUbKuMQ==
+md2md@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/md2md/-/md2md-0.4.0.tgz#69885e4b17241cbfa3bc9525c2b6cc63dc83e53a"
+  integrity sha512-1QbrCEbmlSbH2UbJtFxOMYkyM3B+Gg/x03JZd5mIY65BU/jbuqzgbV3k8THNcajf5gnIgYWRjRx/DfqA98Wcxw==
   dependencies:
     chokidar "^3.4.0"
     lodash "^4.17.15"

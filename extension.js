@@ -9,6 +9,8 @@ const md = new MarkdownIt({
 const md2md = require("md2md");
 const path = require("path");
 require("./style.scss");
+require("./layout.scss");
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -17,8 +19,12 @@ console.log("Vscode Markdown Preview With fragments and variables");
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  const styleSrc = vscode.Uri.file(
+  const lightTheme = vscode.Uri.file(
     path.join(context.extensionPath, "./dist/main.css")
+  ).with({ scheme: "vscode-resource" });
+
+  const darkTheme = vscode.Uri.file(
+    path.join(context.extensionPath, "./cobalt.css")
   ).with({ scheme: "vscode-resource" });
   // const link = (
   //   <link rel="stylesheet" type="text/css" href="{{styleSrc}}"></link>
@@ -38,7 +44,7 @@ function activate(context) {
         {} // Webview options. More on these later.
       );
 
-      file && setHtml(panel, file, styleSrc);
+      file && setHtml(panel, file, darkTheme);
       // when text editor change
       vscode.window.onDidChangeActiveTextEditor((e) => {
         console.log("open");
@@ -46,15 +52,49 @@ function activate(context) {
         if (e._documentData._languageId !== "markdown") {
           return;
         }
-        setHtml(panel, e._documentData._document.fileName, styleSrc);
+        setHtml(panel, e._documentData._document.fileName, darkTheme);
       });
-      // when saved text document
-      vscode.workspace.onDidSaveTextDocument((e) => {
-        console.log("saved");
-        console.log(e);
+      vscode.workspace.vscode.workspace // when saved text document
+        .onDidSaveTextDocument((e) => {
+          console.log("saved");
+          console.log(e);
 
-        setHtml(panel, e.fileName, styleSrc);
+          setHtml(panel, e.fileName, darkTheme);
+        });
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("markdownPreview.light", () => {
+      const file = vscode.window.activeTextEditor.document.fileName;
+      const root = vscode.workspace.rootPath;
+      process.env.PATH_ROOT = root;
+      // console.log(file, vscode.workspace.rootPath);
+      // Create and show a new webview
+      const panel = vscode.window.createWebviewPanel(
+        "markdown", // Identifies the type of the webview. Used internally
+        "Markdown Preview", // Title of the panel displayed to the user
+        vscode.ViewColumn.Beside, // Editor column to show in different panel
+        {} // Webview options. More on these later.
+      );
+
+      file && setHtml(panel, file, lightTheme);
+      // when text editor change
+      vscode.window.onDidChangeActiveTextEditor((e) => {
+        console.log("open");
+        console.log(e);
+        if (e._documentData._languageId !== "markdown") {
+          return;
+        }
+        setHtml(panel, e._documentData._document.fileName, lightTheme);
       });
+      vscode.workspace.vscode.workspace // when saved text document
+        .onDidSaveTextDocument((e) => {
+          console.log("saved");
+          console.log(e);
+
+          setHtml(panel, e.fileName, lightTheme);
+        });
     })
   );
 }
@@ -71,8 +111,7 @@ function getName(absPath) {
 function getContent(absPath) {
   try {
     // console.log(md2md.markdownToString(absPath));
-    const text = md2md.markdownToString(absPath).split("---");
-    return `${text[text.length - 1]}`;
+    return md2md.markdownToString(absPath);
   } catch (error) {
     vscode.window.showErrorMessage("md2md error");
     return "md2md error";
@@ -85,6 +124,8 @@ function setHtml(panel, absPath, stylePath) {
   ${md.render(getContent(absPath))}
   </div>
   `;
+  console.log(content);
+
   // console.log(content);
   panel.webview.html = content;
   panel.title = getName(absPath);
