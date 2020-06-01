@@ -35,7 +35,7 @@ function activate(context) {
       const file = vscode.window.activeTextEditor.document.fileName;
       const root = vscode.workspace.rootPath;
       process.env.PATH_ROOT = root;
-      // console.log(file, vscode.workspace.rootPath);
+      console.log(file, vscode.workspace.rootPath);
       // Create and show a new webview
       const panel = vscode.window.createWebviewPanel(
         "markdown", // Identifies the type of the webview. Used internally
@@ -54,7 +54,8 @@ function activate(context) {
         }
         setHtml(panel, e._documentData._document.fileName, darkTheme);
       });
-      vscode.workspace.vscode.workspace // when saved text document
+
+      vscode.workspace // when saved text document
         .onDidSaveTextDocument((e) => {
           console.log("saved");
           console.log(e);
@@ -73,7 +74,7 @@ function activate(context) {
       // Create and show a new webview
       const panel = vscode.window.createWebviewPanel(
         "markdown", // Identifies the type of the webview. Used internally
-        "Markdown Preview", // Title of the panel displayed to the user
+        "Markdown Light", // Title of the panel displayed to the user
         vscode.ViewColumn.Beside, // Editor column to show in different panel
         {} // Webview options. More on these later.
       );
@@ -88,7 +89,7 @@ function activate(context) {
         }
         setHtml(panel, e._documentData._document.fileName, lightTheme);
       });
-      vscode.workspace.vscode.workspace // when saved text document
+      vscode.workspace // when saved text document
         .onDidSaveTextDocument((e) => {
           console.log("saved");
           console.log(e);
@@ -118,13 +119,12 @@ function getContent(absPath) {
   }
 }
 
-function setHtml(panel, absPath, stylePath) {
-  const content = `<link rel="stylesheet" type="text/css" href="${stylePath}"></link> 
+function setHtml(panel, absPath, theme) {
+  const content = `<link rel="stylesheet" type="text/css" href="${theme}"></link> 
   <div class="doc-post-container">
   ${md.render(getContent(absPath))}
   </div>
   `;
-  console.log(content);
 
   // console.log(content);
   panel.webview.html = content;
