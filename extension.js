@@ -105,7 +105,7 @@ exports.activate = activate;
 function deactivate() {}
 
 function getName(absPath) {
-  const arr = absPath.split("/");
+  const arr = absPath.split(path.sep);
   return `Preview ${arr[arr.length - 1]}`;
 }
 
