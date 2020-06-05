@@ -32,11 +32,8 @@ function activate(context) {
   // console.log(styleSrc);
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownPreview.start", () => {
-      const file = vscode.window.activeTextEditor.document.fileName.replace(
-        /\\/g,
-        "\\\\"
-      );
-      const root = vscode.workspace.rootPath.replace(/\\/g, "\\\\");
+      const file = vscode.window.activeTextEditor.document.fileName;
+      const root = vscode.workspace.rootPath;
       process.env.PATH_ROOT = root;
       console.log(file, vscode.workspace.rootPath);
       // Create and show a new webview
@@ -70,11 +67,8 @@ function activate(context) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownPreview.light", () => {
-      const file = vscode.window.activeTextEditor.document.fileName.replace(
-        /\\/g,
-        "\\\\"
-      );
-      const root = vscode.workspace.rootPath.replace(/\\/g, "\\\\");
+      const file = vscode.window.activeTextEditor.document.fileName;
+      const root = vscode.workspace.rootPath;
       process.env.PATH_ROOT = root;
       // console.log(file, vscode.workspace.rootPath);
       // Create and show a new webview
