@@ -2,7 +2,7 @@
 	"name": "markdown-fragment-variable-preview",
 	"displayName": "MarkdownPreview",
 	"description": "Support variables and fragements, when you save md file will replace it, then you can preview complete markdown",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"author": "chenzizhao",
 	"publisher": "chenzizhao",
 	"repository": {
