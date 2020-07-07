@@ -17,7 +17,8 @@
 	],
 	"activationEvents": [
 		"onCommand:markdownPreview.start",
-		"onCommand:markdownPreview.light"
+		"onCommand:markdownPreview.light",
+		"onCommand:menu.preview"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -31,6 +32,11 @@
 				"command": "markdownPreview.light",
 				"title": "Light Theme",
 				"category": "Markdown Preview Light"
+			},
+			{
+				"command": "menu.preview",
+				"title": "Menu Preview",
+				"category": "Menu Preview"
 			}
 		],
 		"menus": {
