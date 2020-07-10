@@ -2,7 +2,7 @@
 	"name": "markdown-fragment-variable-preview",
 	"displayName": "MarkdownPreview",
 	"description": "Support variables and fragements, when you save md file will replace it, then you can preview complete markdown",
-	"version": "0.1.9",
+	"version": "0.2.0",
 	"author": "chenzizhao",
 	"publisher": "chenzizhao",
 	"repository": {
@@ -54,7 +54,7 @@
 		"pretest": "yarn run lint",
 		"test": "node ./test/runTest.js",
 		"vscode:prepublish": "webpack --mode production",
-		"webpack": "webpack --mode development",
+		"build": "webpack --mode development",
 		"start": "webpack --mode development --watch"
 	},
 	"devDependencies": {

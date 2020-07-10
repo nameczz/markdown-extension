@@ -1,8 +1,12 @@
+body {
+    overflow: scroll;
+}
+
 .menu-container {
-    position: fixed;
     box-sizing: border-box;
     color: #333;
-    overflow: auto;
+    overflow: scroll;
+
     line-height: 1.2rem;
     background: #f1f1f1; //#f7f9fa;
 
