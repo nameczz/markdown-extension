@@ -70,7 +70,7 @@
 	},
 	"dependencies": {
 		"css-loader": "^3.5.3",
-		"markdown-it": "^11.0.0",
+		"markdown-it": "^12.3.2",
 		"markdown-it-container": "^2.0.0",
 		"markdown-it-emoji": "^1.4.0",
 		"md2md": "^0.5.1",
